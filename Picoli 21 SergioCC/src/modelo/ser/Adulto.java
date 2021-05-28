@@ -1,8 +1,8 @@
-package general;
-
+package modelo.ser;
 
 public class Adulto implements Comportamiento{
 	private long ahorro;
+	private float produccionPotencial=10f;
 	
 	public long getAhorro() {
 		return ahorro;
@@ -28,10 +28,11 @@ public class Adulto implements Comportamiento{
 	}
 
 	private float recalcularEsperanzaDeVida(int sueldo, float esperanzaVida) {
-		//diria que funciona, pero no lo he probado		
-		esperanzaVida+=reajustarEV(sueldo);
+		if (sueldo>=Edades.adulto.getNecesidadVital()) {
+			return esperanzaVida;
+		}	
+		return esperanzaVida-=(float)sueldo/100;	
 		
-		return esperanzaVida;
 	}
 
 	public long getNecesidad() {
@@ -40,13 +41,9 @@ public class Adulto implements Comportamiento{
 		}
 		return 0;
 	}
-	public float reajustarEV (int sueldo) {
-		float resta = 0;
-		if (sueldo<=99f && sueldo <=50f) {
-			resta= -0.5f;
-		}if (sueldo<=49f && sueldo <=0f) 
-			resta = -1f;
-			return resta;
-		}
+	
+	public float getProduccionPotencial() {
+		return this.produccionPotencial;
+	}
 	}
 	

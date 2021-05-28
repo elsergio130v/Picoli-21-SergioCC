@@ -1,7 +1,7 @@
-package general;
+package modelo.ser;
 
-import java.util.Observable;
 import java.util.Observer;
+
 
 import utiles.Utiles;
 
@@ -27,25 +27,27 @@ public class Ser {
 
 	public boolean envejecer() {
 		this.edad++;
-		if (pasaAAdulto()) {
+		if (!((Menor) this.comportamiento).viabilidadMenor()) {
+			//hacer morir al ser si no es viable				
+			//Ser.muere();	
+		}
+		if (this.pasaAAdulto()) {
 			// TODO hay que comprobar la viabilidad del menor
-						//TODO
 			//si el menor no alcanza el 55% del factor desarrollo
 			//no se le considera viable y ese ser muere
-			if (!((Menor) this.comportamiento).viabilidadMenor()) {
-				//hacer morir al ser si no es viable				
-//				Ser.muere();	
-			}
-			comportamiento = new Adulto();
+			this.comportamiento = new Adulto();
 			this.aAdultos.notifica(this);
 		}
-		if (pasaAAnciano()) {
+		if (this.pasaAAnciano()) {
 			// Una solucion para no tener clases sin propiedades
 			// son los objetos anonimos
 			//TODO quitar dinero al adulto antes de que se jubile
 			this.set0Saving(this);
 			this.obsDropSaving.notifica(this);
-			comportamiento = new Comportamiento() {
+			this.comportamiento = new Comportamiento() {
+				
+				float calculaPendienteUna = calculaPendiente(new Coordenada(.3f, 1), new Coordenada(1, 0));
+	            float calculaPendienteDos = calculaPendiente(new Coordenada(0, 2), new Coordenada(.3f, 1));
 
 				@Override
 				public float alimentar(int sueldo, float esperanzaVida) {
@@ -53,8 +55,12 @@ public class Ser {
 				}
 
 				float recalcularVejez(int sueldo, float esperanzaVida) {
-					// TODO recalcular la esperanza de vida
-					return esperanzaVida;
+					 // TODO recalcular la esperanza de vida
+	                float coeficiente = (float) sueldo / Edades.anciano.getNecesidadVital();
+	                if (coeficiente >= .3f) {
+	                    return esperanzaVida -= calculaPendienteUna * coeficiente - calculaPendienteUna;
+	                }
+	                return esperanzaVida -= Math.round(calculaPendienteDos * coeficiente - (calculaPendienteDos + 1));
 				}
 
 			};
@@ -126,5 +132,8 @@ public class Ser {
 	public Comportamiento getComportamiento() {
 		return comportamiento;
 	}
+    public float calculaPendiente(Coordenada uno, Coordenada dos) {
+        return (float) (uno.getPosY() - dos.getPosY()) / (uno.getPosX() - dos.getPosX());
+    }
 	
 }

@@ -1,4 +1,4 @@
-package general;
+package modelo.ser;
 
 public enum Edades {
 	menor(100, 18), adulto(100, 65), anciano(50, 120);

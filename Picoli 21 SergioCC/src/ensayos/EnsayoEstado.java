@@ -1,4 +1,4 @@
-package general;
+package ensayos;
 
 public class EnsayoEstado {
 
