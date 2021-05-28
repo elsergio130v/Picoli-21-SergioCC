@@ -93,17 +93,6 @@ public class Estado {
 				
 			trabajadoresFaltantes=calculaNumeroFallecimientos();
 			}
-			
-				
-		
-		
-		//		if (this.produccion>this.demanda) {
-//			 contratar(trabajadoresFaltantes);
-//			 reduccionNacimientos();
-//		}
-//		int total=numeroFallecimientos()+nacimientosPorProduccion();
-//		
-//		return -1;
 		}
 	
 	private long mediaDemanda() {
@@ -170,7 +159,6 @@ public class Estado {
 
 
 	private void envejecer() {
-		// TODO Auto-generated method stub
 		social.envejecer();
 		industria.envejecer();
 		
@@ -183,29 +171,26 @@ public class Estado {
 	private long pagarCostesFabricacion() {
 		// TODO Auto-generated method stub
 		// no se si hacienda o industria		
-		return 0;
+		return -1;
 	}
 
 	private long calculamosProduccionPeriodica() {
 		// TODO Auto-generated method stub
 		// no se si hacienda o industria
-		return 0;
+		return -1;
 	}
 
 	private void naceSer() {
 		Ser ser = new Ser();
 		seres.add(ser);
-//		hay que acceder a la lista de los menores para añadirle el ser que acaba de nacer
 		social.getListaMenores().add(ser);	
 	}
 	
 	
 	private long incrementoDemanda(int incremento) {
-//		incremento de la demanda a traves del valor que nos entra como porcentaje.
 		return this.demanda+=((demanda*incremento)/100);
 	}
 	private void agregarDemanda() {
-//		es una pila
 		this.demandasPeriodo.push(this.demanda);
 	}
 	

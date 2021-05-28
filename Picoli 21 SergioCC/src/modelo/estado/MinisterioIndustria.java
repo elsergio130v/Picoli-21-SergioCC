@@ -10,7 +10,6 @@ import modelo.ser.Ser;
 //porque se encarga de contratar y despedir
 public class MinisterioIndustria {
 	private ArrayDeque<Adulto> trabajadores = new ArrayDeque<Adulto>();
-	private ArrayList<Ser> andresito = new ArrayList<Ser>();
 	
 	public void envejecer() {
 		//	TODO	
