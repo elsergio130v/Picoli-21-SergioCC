@@ -4,7 +4,8 @@ package modelo.ser;
 
 public class Menor implements Comportamiento{
 	public float incrementoFactorDesarrollo = 5.5f;
-	private float factorDesarrollo;
+	private float factorDesarrollo = 55f;
+	Ser ser;
 
 	@Override
 	public float alimentar(int sueldo,float esperanzaVida) {
@@ -18,8 +19,16 @@ public class Menor implements Comportamiento{
 	public boolean viabilidadMenor() {
 		int minimoVieable=55;
 		
-		return this.incrementoFactorDesarrollo>minimoVieable ;
+		return this.factorDesarrollo>minimoVieable ;
 		
+	}
+	public int getSueldo() {
+		
+		return ser.getSueldo();
+	}
+	public float getEsperanzaVida() {
+		
+		return ser.getEsperanzaVida();
 	}
 		
 }

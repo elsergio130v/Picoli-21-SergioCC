@@ -9,6 +9,7 @@ import modelo.estado.MinisterioIndustria;
 import modelo.estado.MinisterioSocial;
 import modelo.presupuesto.Presupuesto;
 import modelo.ser.Adulto;
+import modelo.ser.Menor;
 import modelo.ser.Ser;
 
 public class Estado {
@@ -22,31 +23,29 @@ public class Estado {
 	// el aumento de produccion en este periodo
 	private float porcentajeAumento;
 	
+
 	// lo cantidad que puede producir el estado
 	private long produccionPotencial = 0;
 	// lo que realmente produce el estado
 	private long produccion;
-	// La cantidad que cada trabajador produce por periodo
-	private int potenciaTrabajador = 450;
+	
 	// dinero que tiene el estado o deuda
 	private long capital = 0;
 	private int seresMuertos = 0;
 	private final ArrayList<Ser> seres = new ArrayList<>();
+	Menor menor;
 	
 	
 	private MinisterioSocial social = new MinisterioSocial();
 	private MinisterioIndustria industria = new MinisterioIndustria();
 
 	public Estado(long demanda) {
-		for (int i = 0; i < demanda / potenciaTrabajador; i++) {
+		for (int i = 0; i < demanda / getPotenciaTrabajador(); i++) {
 			naceSer();
-//			deberia de estar envejecer en este constructor? ya que ministerio social 
-//			se encarga de la gestion de los seres, pero hasta que punto.
 		}
 		// Esto es la historia
 //		int historia = 0;
 		do {
-//			los ministerios los instanciamos aqui. en el social nada mas que entran los menores y los ancianos.
 			terminarPeriodo();
 			comenzarPeriodo();
 			periodo++;
@@ -73,13 +72,13 @@ public class Estado {
 		industria.getSizeTrabajadores(), getListaParados());
 		presupuesto.establecerPorcentajes(capital);
 		capital-=presupuesto.getTotal();
-		envejecer();
-//		ministerio social solo envejece.
+		social.alimentarSeresSocial();
+		envejecerSeres();
+		//		ministerio social solo envejece.
 	}
 	
 //	hacer test de este metodo de abajo.
 	private void establecerNacimientos(long trabajadoresFaltantes) {
-		//	TODO	
 		if (this.demanda>this.produccion) {
 			contratar(trabajadoresFaltantes);
 //				contratar esta aun por hacer.
@@ -107,7 +106,7 @@ public class Estado {
 	
 	private int nacimientosPorProduccion() {
 		long necesidad=mediaDemanda()-produccionPotencial;
-		float seresAnacer=necesidad/potenciaTrabajador;
+		float seresAnacer=necesidad/getPotenciaTrabajador();
 		if (seresAnacer<1) {
 			return 0;
 		}return Math.round(seresAnacer);
@@ -136,7 +135,7 @@ public class Estado {
 	}
 
 	private long getProduccionPotencial() {		
-	return this.produccionPotencial=industria.getSizeTrabajadores()+social.getSizeParados()*potenciaTrabajador;
+	return this.produccionPotencial=industria.getSizeTrabajadores()+social.getSizeParados()*getPotenciaTrabajador();
 	}
 
 	private void contratar(long trabajadoresNecesarios) {
@@ -158,9 +157,10 @@ public class Estado {
 
 
 
-	private void envejecer() {
-		social.envejecer();
-		industria.envejecer();
+	private void envejecerSeres() {
+		for (Ser ser :seres) {
+			ser.envejecer();
+		}
 		
 	}
 
@@ -181,9 +181,11 @@ public class Estado {
 	}
 
 	private void naceSer() {
-		Ser ser = new Ser();
-		seres.add(ser);
-		social.getListaMenores().add(ser);	
+		for (Iterator<Ser> iterator = seres.iterator(); iterator.hasNext();) {
+			Ser ser= (Ser) iterator.next();
+			seres.add(ser);
+			social.getListaMenores().add((Menor)iterator);
+		}
 	}
 	
 	
@@ -192,6 +194,10 @@ public class Estado {
 	}
 	private void agregarDemanda() {
 		this.demandasPeriodo.push(this.demanda);
+	}
+
+	public int getPotenciaTrabajador() {
+		return (int)industria.getPotenciaTrabajador();
 	}
 	
 }
