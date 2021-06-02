@@ -135,7 +135,7 @@ public class Estado {
 	}
 
 	private long getProduccionPotencial() {		
-	return this.produccionPotencial=industria.getSizeTrabajadores()+social.getSizeParados()*getPotenciaTrabajador();
+	return this.produccionPotencial=industria.getSizeTrabajadores()+industria.getSizeParados()*getPotenciaTrabajador();
 	}
 
 	private void contratar(long trabajadoresNecesarios) {
@@ -165,7 +165,7 @@ public class Estado {
 	}
 
 	private ArrayDeque<Adulto> getListaParados() {
-		return social.getListaParados();
+		return industria.getListaParados();
 	}
 
 	private long pagarCostesFabricacion() {

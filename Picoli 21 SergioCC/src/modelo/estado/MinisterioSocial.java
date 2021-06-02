@@ -13,7 +13,6 @@ import modelo.ser.Ser;
 public class MinisterioSocial {
 	ArrayList<Menor> menores = new ArrayList<Menor>(); 
 	ArrayList<Ser> ancianos = new ArrayList<Ser>();
-	ArrayDeque<Adulto> parados = new ArrayDeque<Adulto>();	
 	
 	public MinisterioSocial() {
 		super();
@@ -21,7 +20,6 @@ public class MinisterioSocial {
 	}
 
 	public void alimentarSeresSocial() {
-		alimentarParados();
 		alimentarMenores();
 		alimentarAncianos();
 	}
@@ -33,15 +31,6 @@ public class MinisterioSocial {
 //			}
 //		}
 //	}
-	private void alimentarParados() {
-		if (!parados.isEmpty()) {
-			
-		for (Iterator<Adulto> iterator = parados.iterator(); iterator.hasNext();) {
-			Adulto ser = iterator.next();
-			 ser.alimentar(ser.getSueldo(), ser.getEsperanzaVida());
-			}
-		}
-	}
 	
 	private void alimentarMenores() {
 		if (!menores.isEmpty()) {
@@ -70,22 +59,10 @@ public class MinisterioSocial {
 		return (long)this.ancianos.size();
 	}
 	
-	public long getSizeParados() {
-		
-		return (long)this.parados.size();
-	}
-	
 
-	public Object[] pasarArray() {
-		return this.parados.toArray();
-		
-	}
 	
 	public ArrayList<Menor> getListaMenores() {
 		return this.menores;
-	}
-	public ArrayDeque<Adulto> getListaParados() {
-		return this.parados;
 	}
 	public ArrayList<Ser> getListaAncianos() {
 		return this.ancianos;

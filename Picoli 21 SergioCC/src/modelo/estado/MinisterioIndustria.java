@@ -13,6 +13,7 @@ import presentador.Estado;
 //porque se encarga de contratar y despedir
 public class MinisterioIndustria {
 	private ArrayDeque<Adulto> trabajadores = new ArrayDeque<Adulto>();	
+	private ArrayDeque<Adulto> parados = new ArrayDeque<Adulto>();
 	
 	public void envejecer() {
 		//	TODO	
@@ -28,9 +29,11 @@ public class MinisterioIndustria {
 	public long getSizeTrabajadores() {
 		return (long)this.trabajadores.size();
 	}
-	private ArrayDeque<Adulto> getListaParados() {	
-		MinisterioSocial social = new MinisterioSocial();
-		return social.getListaParados();
+	public long getSizeParados() {
+		return (long)this.parados.size();
+	}
+	public ArrayDeque<Adulto> getListaParados() {	
+		return this.parados;
 	}
 	
 	public ArrayDeque<Adulto> getListaTrabajadores(){
